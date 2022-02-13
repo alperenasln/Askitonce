@@ -25,6 +25,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    <form asp-controller="Question" asp-action="Search">
+                        <p>
+                        Title: <input type="text" name="SearchString" />
+                        <input type="submit" value="Search" />
+                        </p>
+                    </form>
                 </div>
             </div>
         </nav>

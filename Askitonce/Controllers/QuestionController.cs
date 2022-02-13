@@ -18,13 +18,23 @@ namespace Askitonce.Controllers
         [ActionName("Index")]
         public async Task<IActionResult> Index()
         {
-            return View(await _cosmosDbService.GetItemsAsync("SELECT * FROM c"));
+            //return View(await _cosmosDbService.GetItemsAsync("SELECT * FROM c WHERE c.title = '"+ id+"' OR c.description = '"+id+"'"));
+             return View(await _cosmosDbService.GetItemsAsync("SELECT * FROM c"));
         }
 
         [ActionName("Create")]
         public IActionResult Create()
         {
             return View();
+        }
+        [ActionName("Search")]
+        public async Task<IActionResult> Search(string searchString)
+        {
+            //return View(await _cosmosDbService.GetItemsAsync("SELECT * FROM c WHERE c.title = '" + searchString + "' OR c.description = '" + searchString + "' OR c.author = '"+ searchString+ "'"));
+            return View(await _cosmosDbService.GetItemsAsync("SELECT * FROM c WHERE c.title LIKE '%"+searchString+ "%'" +
+                " OR c.description LIKE '%"+searchString+"%'" +
+                " OR c.author LIKE '%"+searchString+"%'"));
+
         }
 
         [HttpPost]
