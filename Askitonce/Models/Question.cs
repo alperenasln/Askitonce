@@ -14,5 +14,8 @@
 
         [JsonProperty(PropertyName = "author")]
         public string Author { get; set; }
+
+       [JsonProperty(PropertyName ="type")]
+       public string Type { get; set; }
     }
 }

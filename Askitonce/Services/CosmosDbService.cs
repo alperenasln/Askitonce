@@ -20,18 +20,23 @@
             this._container = dbClient.GetContainer(databaseName, containerName);
         }
 
-        public async Task AddItemAsync(Question question)
+        public async Task AddQuestionItemAsync(Question question)
         {
-            await this._container.CreateItemAsync<Question>(question, new PartitionKey(question.Id));
+            question.Type = "question";
+            await this._container.CreateItemAsync<Question>(question, new PartitionKey(question.Type));
         }
 
-       
+       public async Task AddAnswerItemAsync(Answer answer)
+        {
+            answer.Type = "answer";
+            await this._container.CreateItemAsync<Answer>(answer, new PartitionKey(answer.Type));
+        }
 
-        public async Task<Question> GetItemAsync(string id)
+        public async Task<Question> GetQuestionItemAsync(string id)
         {
             try
             {
-                ItemResponse<Question> response = await this._container.ReadItemAsync<Question>(id, new PartitionKey(id));
+                ItemResponse<Question> response = await this._container.ReadItemAsync<Question>(id, new PartitionKey("question"));
                 return response.Resource;
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -40,8 +45,19 @@
             }
 
         }
+        public async Task<IEnumerable<Answer>> GetAnswerItemsAsync(string queryString)
+        {
+            var query = this._container.GetItemQueryIterator<Answer>(new QueryDefinition(queryString));
+            List<Answer> results = new List<Answer>();
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+                results.AddRange(response.ToList());
+            }
+            return results;
+        }
 
-        public async Task<IEnumerable<Question>> GetItemsAsync(string queryString)
+        public async Task<IEnumerable<Question>> GetQuestionItemsAsync(string queryString)
         {
             var query = this._container.GetItemQueryIterator<Question>(new QueryDefinition(queryString));
             List<Question> results = new List<Question>();
@@ -54,7 +70,9 @@
 
             return results;
         }
-
        
+      
+
+
     }
 }

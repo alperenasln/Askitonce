@@ -5,9 +5,12 @@
     using Askitonce.Models;
     public interface ICosmosDbService
     {
-        Task<IEnumerable<Question>> GetItemsAsync(string query);
-        Task<Question> GetItemAsync(string id);
-        Task AddItemAsync(Question question);
+        Task<IEnumerable<Question>> GetQuestionItemsAsync(string query);
+        Task<IEnumerable<Answer>> GetAnswerItemsAsync(string query);
+        Task<Question> GetQuestionItemAsync(string id);
+        Task AddQuestionItemAsync(Question question);
+        Task AddAnswerItemAsync(Answer answer);
+        
         
     }
 }
