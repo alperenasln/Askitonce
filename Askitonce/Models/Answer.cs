@@ -5,8 +5,8 @@
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
-        [JsonProperty(PropertyName ="answerid")]
-        public string AnswerId { get; set; }  
+        [JsonProperty(PropertyName ="questionid")]
+        public string QuestionId { get; set; }  
 
         [JsonProperty(PropertyName = "body")]
         public string Body { get; set; }

@@ -61,11 +61,15 @@ namespace Askitonce.Controllers
         [HttpPost]
         [ActionName("CreateAnswer")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAnswerAsync([Bind("Id,AnswerId,Body,AnswerAuthor,Type")] Answer answer)
+        public async Task<ActionResult> CreateAnswerAsync([Bind("Id,QuestionId,Body,AnswerAuthor,Type")] Answer answer)
         {
             if (ModelState.IsValid)
             {
-                answer.AnswerId = Guid.NewGuid().ToString();
+                //answer.AnswerId = Guid.NewGuid().ToString();
+                
+                string path = Request.Path.ToString();
+                answer.QuestionId = path.Substring(23);
+                answer.Id = Guid.NewGuid().ToString();
                 await _cosmosDbService.AddAnswerItemAsync(answer);
                 return RedirectToAction("Index");
             }
@@ -83,7 +87,7 @@ namespace Askitonce.Controllers
         {
             var answertype = "answer";
             
-            return View(await _cosmosDbService.GetAnswerItemsAsync("SELECT * FROM c WHERE c.id= '"+id+"' AND c.type= '"+answertype+"'"));
+            return View(await _cosmosDbService.GetAnswerItemsAsync("SELECT * FROM c WHERE c.questionid= '"+id+"' AND c.type= '"+answertype+"'"));
         }
     }
 }
