@@ -6,71 +6,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="CreateAnswer">Create New</a>
-    
-</p>
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.QuestionId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Body)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AnswerAuthor)
-            </th>
-            <th>
-              
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
+<h1>Answers</h1>
+@{
             string questid="";
             string parser = "";
-            @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuestionId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Body)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AnswerAuthor)
-            </td>
-            <td>                
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("CreateAnswer", "CreateAnswer", new { id=item.QuestionId })                
-            </td>
-                </tr>
-                
-
-}   
+            
+<div class=post-container>
+    @foreach(var item in Model)
+    {
+        <div class=single-post>
+        <p class="lead">@Html.DisplayFor(modelItem => item.Body)</p>
+        <h7 style="float: right;">@Html.DisplayFor(modelItem => item.AnswerAuthor)</h7>  
+        </div>
+    }
+</div>
 parser = Context.Request.Path.ToString();
 questid = parser.Substring(18);
-@Html.ActionLink("Create New Answer","CreateAnswer",new{id=questid})
+@Html.ActionLink("Create New Answer","CreateAnswer",new{id=questid},new {@class="lnkGet btn btn-outline-primary",@style="float: right;"})
 }
-    </tbody>
-</table>
-<div>
-    <a asp-action="Index">Back to list</a>
-    
-    
-    
-   
-    
-</div>
+

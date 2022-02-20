@@ -39,8 +39,8 @@ namespace Askitonce.Controllers
         {
             //return View(await _cosmosDbService.GetItemsAsync("SELECT * FROM c WHERE c.title = '" + searchString + "' OR c.description = '" + searchString + "' OR c.author = '"+ searchString+ "'"));
             return View(await _cosmosDbService.GetQuestionItemsAsync("SELECT * FROM c WHERE c.title LIKE '%"+searchString+ "%'" +
-                " OR c.description LIKE '%"+searchString+"%'" +
-                " OR c.author LIKE '%"+searchString+"%'"));
+                " OR c.description LIKE '%"+searchString+"%'" +                
+                " OR c.author LIKE '%" +searchString+"%'"));
 
         }
 
